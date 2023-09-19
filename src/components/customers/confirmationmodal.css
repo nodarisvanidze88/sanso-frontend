@@ -1,0 +1,12 @@
+.modal-container{
+    display: flex;
+    flex-direction: column;
+}
+.modal-butons{
+    display: flex;
+    flex-direction: row;
+    align-self: self-end;
+}
+.modal-yes-button {
+    margin-right: 15px;
+}
