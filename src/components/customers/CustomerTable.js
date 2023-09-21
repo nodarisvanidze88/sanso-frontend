@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash, faPenToSquare, faArrowUpWideShort, faArrowDownWideShort } from "@fortawesome/free-solid-svg-icons"
 import { GlobalFilter } from "./TableHeaderGlobalFilter"
 import DeleteConfirmationModal from './DeleteConfirmationModal'
+
 import "./customerTable.css"
 export default function CustomerTable() {
     const [CustomerList, setCustomerList] = useState([])
@@ -45,9 +46,17 @@ export default function CustomerTable() {
             console.error("Error Deleting item", error)
         }
     }
+    const handleUpdaetAfteradd = async () => {
+        const getAfteradd = await fetch(CustomerDataUrls['Get_All_Customers'])
+        const dataAfterAdd = await getAfteradd.json()
+        setCustomerList(dataAfterAdd)
+    }
     return (
         <div className="table-container">
-            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+            <GlobalFilter
+                filter={globalFilter}
+                setFilter={setGlobalFilter}
+                getNewData={handleUpdaetAfteradd()} />
             <table {...getTableProps()} className="table table-striped table-dark">
                 <thead>
                     {headerGroups.map((headerGroup) => (
@@ -58,12 +67,9 @@ export default function CustomerTable() {
                                     <span>
                                         {column.isSorted ? (column.isSortedDesc ? <FontAwesomeIcon icon={faArrowDownWideShort} /> : <FontAwesomeIcon icon={faArrowUpWideShort} />) : ""}
                                     </span>
-                                </th>
-                            ))
-                            }
+                                </th>))}
                             <th>ფუნქცია</th>
-                        </tr>
-                    ))}
+                        </tr>))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
                     {rows.map((row) => {
@@ -72,7 +78,6 @@ export default function CustomerTable() {
                             <tr {...row.getRowProps()}>
                                 {row.cells.map((cell) => (
                                     <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-
                                 ))
                                 }
                                 <td>
