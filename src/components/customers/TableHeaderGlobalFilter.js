@@ -23,6 +23,7 @@ export const GlobalFilter = ({ filter, setFilter, getNewData }) => {
             }
             const responseData = await response.json()
             console.log("Response from server", responseData)
+            getNewData()
         } catch (error) {
             console.error("Error: ", error)
         }

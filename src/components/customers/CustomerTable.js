@@ -6,12 +6,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash, faPenToSquare, faArrowUpWideShort, faArrowDownWideShort } from "@fortawesome/free-solid-svg-icons"
 import { GlobalFilter } from "./TableHeaderGlobalFilter"
 import DeleteConfirmationModal from './DeleteConfirmationModal'
+import EditCustomerModal from './EditCustomerModal'
 
 import "./customerTable.css"
 export default function CustomerTable() {
     const [CustomerList, setCustomerList] = useState([])
     const [isOpenModal, setIsOpenModal] = useState(false)
+    const [isEditModalOpen, setEditModalOpen] = useState(false)
+    const [customerToEdit, setCustomerToEdit] = useState(null);
     const [itemToDelete, setItemToDelete] = useState(null)
+    console.log(customerToEdit)
+
     useEffect(() => {
         fetch(CustomerDataUrls['Get_All_Customers'])
             .then(res => res.json())
@@ -51,12 +56,20 @@ export default function CustomerTable() {
         const dataAfterAdd = await getAfteradd.json()
         setCustomerList(dataAfterAdd)
     }
+    const openEditModal = (customer) => {
+        setCustomerToEdit(customer)
+        setEditModalOpen(true)
+    }
+    const handleUpdate = (updatedData) => {
+
+    }
+
     return (
         <div className="table-container">
             <GlobalFilter
                 filter={globalFilter}
                 setFilter={setGlobalFilter}
-                getNewData={handleUpdaetAfteradd()} />
+                getNewData={handleUpdaetAfteradd} />
             <table {...getTableProps()} className="table table-striped table-dark">
                 <thead>
                     {headerGroups.map((headerGroup) => (
@@ -83,7 +96,10 @@ export default function CustomerTable() {
                                 <td>
                                     <div className="buttons-column">
                                         <div className="button-edit">
-                                            <button type="button" className="btn btn-primary btn-sm">
+                                            <button type="button" className="btn btn-primary btn-sm" onClick={()=>{
+                                                setEditModalOpen(true)
+                                                setCustomerToEdit(row.original)
+                                            }}>
                                                 <FontAwesomeIcon icon={faPenToSquare} size="sm" />
                                             </button>
                                         </div>
@@ -104,6 +120,11 @@ export default function CustomerTable() {
                     }
                 </tbody>
             </table>
+            <EditCustomerModal
+                isOpen={isEditModalOpen}
+                onRequestClose={() => setEditModalOpen(false)}
+                onUpdate={handleUpdate}
+                customerData={customerToEdit} />
             <DeleteConfirmationModal
                 isOpen={isOpenModal}
                 onRequestClose={() => setIsOpenModal(false)}

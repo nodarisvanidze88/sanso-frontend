@@ -12,9 +12,10 @@ const customStyles = {
         margin: "auto",
     },
 };
-export default function AddNewCustomerModal({ isOpen, onRequestClose, onSave }) {
-    
-    const [formData, setFormData] = useState({
+export default function EditCustomerModal({ isOpen, onRequestClose, onUpdate, customerData }) {
+    const [isValidFiled, setValidField] = useState(true)
+    const [formError, setFormError] = useState(false)
+    const [formData, setFormData] = useState(customerData || {
         internal_id: "",
         name: "",
         indetification_code: "",
@@ -22,15 +23,10 @@ export default function AddNewCustomerModal({ isOpen, onRequestClose, onSave }) 
         clinic_name: "",
         contact_person: "",
         contact_person_mobile: "",
-    })
-    const [formError, setFormError] = useState({
-        internal_id: "",
-        name: "",
-        indetification_code: "",
-    })
-    const [isValidFiled, setValidField] = useState(true)
+    });
+    console.log(formData)
 
-    const handeChanges = (e) => {
+    const handleInputChanges = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
@@ -60,7 +56,7 @@ export default function AddNewCustomerModal({ isOpen, onRequestClose, onSave }) 
 
     const handelSave = async () => {
         if (handelFormValid()) {
-            await onSave(formData)
+            await onUpdate(formData)
             onRequestClose()
         }
     }
@@ -68,16 +64,16 @@ export default function AddNewCustomerModal({ isOpen, onRequestClose, onSave }) 
         <Modal
             isOpen={isOpen}
             onRequestClose={onRequestClose}
-            contentLabel="Add New Customer Modal"
+            contentLabel="Edit Customer Modal"
             style={customStyles}
         >
             <div className="add-modal-container">
-                <h2>ორგანიზაციის დამატება</h2>
+                <h2>ორგანიზაციის რედაქტირება</h2>
                 <div className="field-containers">
                     <input type="text"
                         name="internal_id"
                         value={formData.internal_id}
-                        onChange={handeChanges}
+                        onChange={handleInputChanges}
                         placeholder="ორგანიზაციის ნომერი" 
                         required/>
                     {!isValidFiled &&
@@ -86,7 +82,7 @@ export default function AddNewCustomerModal({ isOpen, onRequestClose, onSave }) 
                     <input type="text"
                         name="name"
                         value={formData.name}
-                        onChange={handeChanges}
+                        onChange={handleInputChanges}
                         placeholder="ორგანიზაციის სახელი" 
                         required/>
                     {!isValidFiled && 
@@ -95,7 +91,7 @@ export default function AddNewCustomerModal({ isOpen, onRequestClose, onSave }) 
                     <input type="text"
                         name="indetification_code"
                         value={formData.indetification_code}
-                        onChange={handeChanges}
+                        onChange={handleInputChanges}
                         placeholder="საიდენტიფიკაციო კოდი" 
                         required/>
                     {!isValidFiled && 
@@ -104,22 +100,22 @@ export default function AddNewCustomerModal({ isOpen, onRequestClose, onSave }) 
                     <input type="text"
                         name="address"
                         value={formData.address}
-                        onChange={handeChanges}
+                        onChange={handleInputChanges}
                         placeholder="მისამართი" />
                     <input type="text"
                         name="clinic_name"
                         value={formData.clinic_name}
-                        onChange={handeChanges}
+                        onChange={handleInputChanges}
                         placeholder="კლინიკის დასახელება" />
                     <input type="text"
                         name="contact_person"
                         value={formData.contact_person}
-                        onChange={handeChanges}
+                        onChange={handleInputChanges}
                         placeholder="საკონტაქტო პირი" />
                     <input type="text"
                         name="contact_person_mobile"
                         value={formData.contact_person_mobile}
-                        onChange={handeChanges}
+                        onChange={handleInputChanges}
                         placeholder="საკონტაქტო მობილური" />
                 </div>
                 <div className="add-customer-modal-butons">
