@@ -13,7 +13,6 @@ const customStyles = {
     },
 };
 export default function AddNewCustomerModal({ isOpen, onRequestClose, onSave }) {
-    
     const [formData, setFormData] = useState({
         internal_id: "",
         name: "",
@@ -74,7 +73,7 @@ export default function AddNewCustomerModal({ isOpen, onRequestClose, onSave }) 
             <div className="add-modal-container">
                 <h2>ორგანიზაციის დამატება</h2>
                 <div className="field-containers">
-                    <input type="text"
+                    <input type="number"
                         name="internal_id"
                         value={formData.internal_id}
                         onChange={handeChanges}

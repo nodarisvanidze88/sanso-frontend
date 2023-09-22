@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal"
 import './confirmationmodal.css'
 
@@ -15,17 +15,14 @@ const customStyles = {
 export default function EditCustomerModal({ isOpen, onRequestClose, onUpdate, customerData }) {
     const [isValidFiled, setValidField] = useState(true)
     const [formError, setFormError] = useState(false)
-    const [formData, setFormData] = useState(customerData || {
-        internal_id: "",
-        name: "",
-        indetification_code: "",
-        address: "",
-        clinic_name: "",
-        contact_person: "",
-        contact_person_mobile: "",
-    });
-    console.log(formData)
-
+    const [formData, setFormData] = useState({});
+    
+    useEffect(() => {
+        if (customerData) {
+            setFormData(customerData);
+        }
+    }, [customerData]);
+    
     const handleInputChanges = (e) => {
         const { name, value } = e.target;
         setFormData({

@@ -15,7 +15,7 @@ export default function CustomerTable() {
     const [isEditModalOpen, setEditModalOpen] = useState(false)
     const [customerToEdit, setCustomerToEdit] = useState(null);
     const [itemToDelete, setItemToDelete] = useState(null)
-    console.log(customerToEdit)
+
 
     useEffect(() => {
         fetch(CustomerDataUrls['Get_All_Customers'])
@@ -56,12 +56,25 @@ export default function CustomerTable() {
         const dataAfterAdd = await getAfteradd.json()
         setCustomerList(dataAfterAdd)
     }
-    const openEditModal = (customer) => {
-        setCustomerToEdit(customer)
-        setEditModalOpen(true)
-    }
-    const handleUpdate = (updatedData) => {
 
+    const handleUpdate = async (updatedData) => {
+        try {
+            const res = await fetch(`${CustomerDataUrls['Get_All_Customers']}${updatedData.id}/`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedData)
+            })
+            if (!res.ok) {
+                throw new Error("Server Error")
+            }
+            const resData = await res.json()
+            console.log("Updated Successfully: ", resData)
+            handleUpdaetAfteradd()
+        } catch (error) {
+            console.error("Update Error: ", error)
+        }
     }
 
     return (
@@ -96,9 +109,9 @@ export default function CustomerTable() {
                                 <td>
                                     <div className="buttons-column">
                                         <div className="button-edit">
-                                            <button type="button" className="btn btn-primary btn-sm" onClick={()=>{
-                                                setEditModalOpen(true)
+                                            <button type="button" className="btn btn-primary btn-sm" onClick={() => {
                                                 setCustomerToEdit(row.original)
+                                                setEditModalOpen(true)
                                             }}>
                                                 <FontAwesomeIcon icon={faPenToSquare} size="sm" />
                                             </button>
