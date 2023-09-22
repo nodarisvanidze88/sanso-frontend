@@ -1,0 +1,6 @@
+.navBar-container{
+    height: 100%;
+    width: 10%;
+    display: flex;
+    align-self: self-start;
+}
