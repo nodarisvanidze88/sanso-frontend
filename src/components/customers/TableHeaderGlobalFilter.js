@@ -32,12 +32,12 @@ export const GlobalFilter = ({ filter, setFilter, getNewData }) => {
     return (
         <div className="Table-Header">
             <div className="Table-Name">კლიენტების სია
-            <button onClick={handeAddClick} className="btn btn-primary btn-sm add-button">
-                <FontAwesomeIcon icon={faUserPlus} />{` Add`}</button>
-            <AddNewCustomerModal isOpen={isAddModalOpen}
-                onRequestClose={() => setAddModalOpen(false)}
-                onSave={handeSaveNewCustomer} />
-                </div>
+                <button onClick={handeAddClick} className="btn btn-primary btn-sm add-button">
+                    <FontAwesomeIcon icon={faUserPlus} />{` Add`}</button>
+                <AddNewCustomerModal isOpen={isAddModalOpen}
+                    onRequestClose={() => setAddModalOpen(false)}
+                    onSave={handeSaveNewCustomer} />
+            </div>
             <div className="Globa-Search">
                 <h1 className="Search-label">Search: </h1>
                 <input className="Search-Input" value={filter || ""}

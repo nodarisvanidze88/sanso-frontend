@@ -17,7 +17,7 @@ export default function CustomerTable() {
     const [itemToDelete, setItemToDelete] = useState(null)
 
 
-    useEffect(() => {
+    const GetTable = () => useEffect(() => {
         fetch(CustomerDataUrls['Get_All_Customers'])
             .then(res => res.json())
             .then(data => {
@@ -35,6 +35,7 @@ export default function CustomerTable() {
         state,
         setGlobalFilter,
         prepareRow } = useTable({ columns, data }, useGlobalFilter, useSortBy)
+
     const { globalFilter } = state
 
     const handelDelete = async () => {
