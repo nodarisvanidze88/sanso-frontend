@@ -1,7 +1,8 @@
-import React, { useState } from "react";
 import Modal from "react-modal"
+import { PutData } from '../../Crud/PutData'
+import { Urls } from '../../URLS/urls'
+import { useEffect, useState } from "react"
 import './confirmationmodal.css'
-
 
 Modal.setAppElement('#root')
 
@@ -12,27 +13,22 @@ const customStyles = {
         margin: "auto",
     },
 };
-export default function AddNewCustomerModal({ isOpen, onRequestClose, onSave }) {
-    const [formData, setFormData] = useState({
-        internal_id: "",
-        name: "",
-        indetification_code: "",
-        address: "",
-        clinic_name: "",
-        contact_person: "",
-        contact_person_mobile: "",
-    })
-    const [formError, setFormError] = useState({
-        internal_id: "",
-        name: "",
-        indetification_code: "",
-    })
+export default function EditCustomerModalNew({ isOpen, onRequestClose, edit, refresh }) {
+    const [editItem, setEditItem] = useState([])
+    const [formError, setFormError] = useState(false)
     const [isValidFiled, setValidField] = useState(true)
+    console.log(edit)
+    useEffect(() => {
+        if (edit) {
+            setEditItem(edit);
+        }
+    }, [edit]);
+    console.log(edit)
 
-    const handeChanges = (e) => {
+    const handleInputChanges = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setEditItem({
+            ...editItem,
             [name]: value,
         })
     }
@@ -40,15 +36,15 @@ export default function AddNewCustomerModal({ isOpen, onRequestClose, onSave }) 
         const newErrors = {}
         let isValid = true
 
-        if (!formData.internal_id) {
+        if (!editItem.internal_id) {
             newErrors.internal_id = "აუცილებელია ორგანიზაციის ნომრის შეყვანა"
             isValid = false
         }
-        if (!formData.name) {
+        if (!editItem.name) {
             newErrors.name = "აუცილებელია ორგანიზაციის სახელის შეყვანა"
             isValid = false
         }
-        if (!formData.indetification_code) {
+        if (!editItem.indetification_code) {
             newErrors.indetification_code = "აუცილებელია ორგანიზაციის საიდენტიფიკაციო კოდის შეყვანა"
             isValid = false
         }
@@ -56,69 +52,70 @@ export default function AddNewCustomerModal({ isOpen, onRequestClose, onSave }) 
         setValidField(isValid)
         return isValid
     }
-
     const handelSave = async () => {
         if (handelFormValid()) {
-            await onSave(formData)
-            onRequestClose()
+            await PutData(Urls['Get_All_Customers'], editItem.id, editItem)
+            refresh()
+            onRequestClose(false)
         }
     }
+
     return (
         <Modal
             isOpen={isOpen}
             onRequestClose={onRequestClose}
-            contentLabel="Add New Customer Modal"
+            contentLabel="Edit Customer Modal"
             style={customStyles}
         >
             <div className="add-modal-container">
-                <h2>ორგანიზაციის დამატება</h2>
+                <h2>ორგანიზაციის რედაქტირება</h2>
                 <div className="field-containers">
-                    <input type="number"
+                    <input type="text"
                         name="internal_id"
-                        value={formData.internal_id}
-                        onChange={handeChanges}
-                        placeholder="ორგანიზაციის ნომერი" 
-                        required/>
+                        value={editItem.internal_id}
+                        onChange={handleInputChanges}
+                        placeholder="ორგანიზაციის ნომერი"
+                        required />
                     {!isValidFiled &&
                         (<span className="newCustomerError">{formError.internal_id}</span>)}
 
                     <input type="text"
                         name="name"
-                        value={formData.name}
-                        onChange={handeChanges}
-                        placeholder="ორგანიზაციის სახელი" 
-                        required/>
-                    {!isValidFiled && 
-                    (<span className="newCustomerError">{formError.name}</span>)}
+                        value={editItem.name}
+                        onChange={handleInputChanges}
+                        placeholder="ორგანიზაციის სახელი"
+                        required />
+                    {!isValidFiled &&
+                        (<span className="newCustomerError">{formError.name}</span>)}
 
                     <input type="text"
                         name="indetification_code"
-                        value={formData.indetification_code}
-                        onChange={handeChanges}
-                        placeholder="საიდენტიფიკაციო კოდი" 
-                        required/>
-                    {!isValidFiled && 
-                    (<span className="newCustomerError">{formError.indetification_code}</span>)}
+                        value={editItem.indetification_code}
+                        onChange={handleInputChanges}
+                        placeholder="საიდენტიფიკაციო კოდი"
+                        required />
+                    {!isValidFiled &&
+                        (<span className="newCustomerError">{formError.indetification_code}</span>)}
 
                     <input type="text"
                         name="address"
-                        value={formData.address}
-                        onChange={handeChanges}
+                        value={editItem.address}
+                        onChange={handleInputChanges}
                         placeholder="მისამართი" />
                     <input type="text"
                         name="clinic_name"
-                        value={formData.clinic_name}
-                        onChange={handeChanges}
+                        value={editItem.clinic_name}
+                        onChange={handleInputChanges}
                         placeholder="კლინიკის დასახელება" />
                     <input type="text"
                         name="contact_person"
-                        value={formData.contact_person}
-                        onChange={handeChanges}
+                        value={editItem.contact_person}
+                        onChange={handleInputChanges}
                         placeholder="საკონტაქტო პირი" />
                     <input type="text"
                         name="contact_person_mobile"
-                        value={formData.contact_person_mobile}
-                        onChange={handeChanges}
+                        value={editItem.contact_person_mobile}
+                        onChange={handleInputChanges}
                         placeholder="საკონტაქტო მობილური" />
                 </div>
                 <div className="add-customer-modal-butons">

@@ -11,8 +11,8 @@ export const PutData = async (url, dataID, bodyData) => {
             throw new Error("Server error")
         }
         const data = await response.json()
-        console.log("Successfully Deleted data: ", data)
+        console.log("Successfully Updated data: ", data)
     } catch (error) {
-        console.error("Can not delete data from server", error)
+        console.error("Can not Update data from server", error)
     };
 }

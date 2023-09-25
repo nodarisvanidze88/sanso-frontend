@@ -1,17 +1,14 @@
-import CustomerTable from "./components/customers/CustomerTable"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NavbarElements from "./components/NavBar/NavBarComponents";
-// import './App.css'
-import CreateCustomersTable from '../src/ComponentsNew/Customers/CustomersListPage'
-
+import {NavBar} from '../../sansofrontend/src/ComponentsNew/NavBar/NavBar'
+import CreateCustomersTable from './ComponentsNew/Customers/CustomersListTable'
+import './App.css'
 function App() {
   return (
     <div className="container">
       <BrowserRouter>
-      <NavbarElements/>
+       <NavBar/>
         <Routes>
-          <Route path="/" element={<CustomerTable />} />
-          <Route path="/new" element={<CreateCustomersTable />} />
+          <Route path="/" element={<CreateCustomersTable />} />
         </Routes>
       </BrowserRouter>
     </div>

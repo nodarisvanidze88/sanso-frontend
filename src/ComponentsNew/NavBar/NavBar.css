@@ -1,0 +1,8 @@
+.NavBar-Container{
+    display: flex;
+    flex-direction: column;
+}
+.Navigation-tab{
+    display: flex;
+    flex-direction: column;
+}

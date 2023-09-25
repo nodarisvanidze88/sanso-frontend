@@ -6,11 +6,14 @@ import { CustomerListColumns } from '../../FunctionsAndComponents/TableComponent
 import { Urls } from '../../FunctionsAndComponents/URLS/urls'
 import { GetData } from '../../FunctionsAndComponents/Crud/GetData'
 import  DeleteConfirmationModal  from '../../FunctionsAndComponents/Modals/CustomerModals/DeleteConfirmationModal'
+import EditCustomerModalNew from '../../FunctionsAndComponents/Modals/CustomerModals/EditCustomerModal'
+import {CustomerTableHead} from "./CustomersListTableHead";
 import './customerTable.css'
 
 export default function CreateCustomersTable() {
     const [customerList, setCustomerList] = useState([])
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isModalEditOpen, setIsModalEditOpen] = useState(false)
+    const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
     const [itemToEditOrDelete, setItemToEditOrDelete] = useState([])
 
     
@@ -32,9 +35,14 @@ export default function CreateCustomersTable() {
         headerGroups,
         setGlobalFilter,
     } = useTable({ columns, data }, useGlobalFilter, useSortBy)
+    const { globalFilter } = state
 
     return (
         <div className="table-container">
+            <CustomerTableHead 
+            filter={globalFilter} 
+            setFilter={setGlobalFilter} 
+            refresh={fullList}/>
             <table {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup) => (
@@ -67,7 +75,7 @@ export default function CreateCustomersTable() {
                                         <div className="button-edit">
                                             <button type="button" className="btn btn-primary btn-sm" onClick={() => {
                                                 setItemToEditOrDelete(row.original)
-                                                setIsModalOpen(true)
+                                                setIsModalEditOpen(true)
                                             }}>
                                                 <FontAwesomeIcon icon={faPenToSquare} size="sm" />
                                             </button>
@@ -76,7 +84,7 @@ export default function CreateCustomersTable() {
                                             <button type="button" className="btn btn-danger btn-sm"
                                                 onClick={() => {
                                                     setItemToEditOrDelete(row.original.id)
-                                                    setIsModalOpen(true)
+                                                    setIsModalDeleteOpen(true)
                                                 }}>
                                                 <FontAwesomeIcon icon={faTrash} size="sm" />
                                             </button>
@@ -87,18 +95,16 @@ export default function CreateCustomersTable() {
                     })}
                 </tbody>
             </table>
-            {/* <EditCustomerModal
-                isOpen={isEditModalOpen}
-                onRequestClose={() => setEditModalOpen(false)}
-                onUpdate={handleUpdate}
-                customerData={customerToEdit} /> */}
+            <EditCustomerModalNew
+                isOpen={isModalEditOpen}
+                edit={itemToEditOrDelete}
+                refresh={fullList}
+                onRequestClose={() => setIsModalEditOpen(false)} />
             <DeleteConfirmationModal
-                isOpen={isModalOpen}
+                isOpen={isModalDeleteOpen}
                 delateItem={itemToEditOrDelete}
                 refresh={fullList} 
-                onRequestClose={() => setIsModalOpen(false)} />
-                
-                
+                onRequestClose={() => setIsModalDeleteOpen(false)} />
         </div>
     )
 }

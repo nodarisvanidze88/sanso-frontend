@@ -1,7 +1,7 @@
 
 import Modal from "react-modal"
 import { DeleteData } from '../../Crud/DeleteData'
-
+import './confirmationmodal.css'
 import { Urls } from '../../URLS/urls'
 
 Modal.setAppElement('#root')
