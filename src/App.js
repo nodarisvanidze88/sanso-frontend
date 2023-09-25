@@ -1,14 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import {NavBar} from '../../sansofrontend/src/ComponentsNew/NavBar/NavBar'
+import NavBar from './ComponentsNew/NavBar/NavBar'
 import CreateCustomersTable from './ComponentsNew/Customers/CustomersListTable'
+import CreateAlmaSystemModelsTable from "./ComponentsNew/AlmaSystemModels/AlmaSystemModelsTable";
 import './App.css'
 function App() {
   return (
-    <div className="container">
+    <div className="container1">
       <BrowserRouter>
        <NavBar/>
         <Routes>
-          <Route path="/" element={<CreateCustomersTable />} />
+          <Route path="/customers" element={<CreateCustomersTable />} />
+          <Route path="/almasystemsmodels" element={<CreateAlmaSystemModelsTable />} />
         </Routes>
       </BrowserRouter>
     </div>

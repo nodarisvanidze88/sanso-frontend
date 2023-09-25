@@ -59,7 +59,7 @@ export default function AddNewCustomerModal({ isOpen, onRequestClose, refresh })
 
     const handelSave = async () => {
         if (handelFormValid()) {
-            await PostData(Urls['Get_All_Customers'], formData)
+            await PostData(Urls['Customers'], formData)
             refresh()
             onRequestClose(false)
         }

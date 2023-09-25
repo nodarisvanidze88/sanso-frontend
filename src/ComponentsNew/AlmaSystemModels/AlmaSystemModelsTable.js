@@ -2,29 +2,29 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useTable, useSortBy, useGlobalFilter } from "react-table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash, faPenToSquare, faArrowUpWideShort, faArrowDownWideShort } from "@fortawesome/free-solid-svg-icons"
-import { CustomerListColumns } from '../../FunctionsAndComponents/TableComponents/customerListColumns'
+import { AlmaSystemModelsColumns } from '../../FunctionsAndComponents/TableComponents/AlmaSystemModelsColumns'
 import { Urls } from '../../FunctionsAndComponents/URLS/urls'
 import { GetData } from '../../FunctionsAndComponents/Crud/GetData'
-import  DeleteConfirmationModal  from '../../FunctionsAndComponents/Modals/CustomerModals/DeleteConfirmationModal'
-import EditCustomerModal from '../../FunctionsAndComponents/Modals/CustomerModals/EditCustomerModal'
-import {CustomerTableHead} from "./CustomersListTableHead";
-import './customerTable.css'
+import  DeleteAlmaSystemModelConfirmationModal  from '../../FunctionsAndComponents/Modals/AlmaSystemModelsModals/DeleteConfirmationModal'
+import EditAlmaSystemModelsModal from '../../FunctionsAndComponents/Modals/AlmaSystemModelsModals/EditAlmaSystemModelsModal'
+import {AlmaSystemModelsTableHead} from "./AlmaSystemModelsTableHead";
+import './AlmaSystemModelsTable.css'
 
-export default function CreateCustomersTable() {
-    const [customerList, setCustomerList] = useState([])
+export default function CreateAlmaSystemModelsTable() {
+    const [AlmaSystemModels, setAlmaSystemModels] = useState([])
     const [isModalEditOpen, setIsModalEditOpen] = useState(false)
     const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
     const [itemToEditOrDelete, setItemToEditOrDelete] = useState([])
 
     
         const fullList = () => {
-            GetData(Urls['Customers'], setCustomerList)
+            GetData(Urls['AlmaSystemModels'], setAlmaSystemModels)
         }
         useEffect(()=>{
             fullList()
         },[])
-    const columns = useMemo(() => CustomerListColumns, [])
-    const data = useMemo(() => customerList, [customerList])
+    const columns = useMemo(() => AlmaSystemModelsColumns, [])
+    const data = useMemo(() => AlmaSystemModels, [AlmaSystemModels])
 
     const {
         getTableProps,
@@ -39,7 +39,7 @@ export default function CreateCustomersTable() {
 
     return (
         <div className="table-container">
-            <CustomerTableHead 
+            <AlmaSystemModelsTableHead 
             filter={globalFilter} 
             setFilter={setGlobalFilter} 
             refresh={fullList}/>
@@ -96,12 +96,12 @@ export default function CreateCustomersTable() {
                     })}
                 </tbody>
             </table>
-            <EditCustomerModal
+            <EditAlmaSystemModelsModal
                 isOpen={isModalEditOpen}
                 edit={itemToEditOrDelete}
                 refresh={fullList}
                 onRequestClose={() => setIsModalEditOpen(false)} />
-            <DeleteConfirmationModal
+            <DeleteAlmaSystemModelConfirmationModal
                 isOpen={isModalDeleteOpen}
                 delateItem={itemToEditOrDelete}
                 refresh={fullList} 

@@ -13,9 +13,9 @@ const customStyles = {
         margin: "auto",
     },
 };
-export default function DeleteConfirmationModal({ isOpen, onRequestClose, delateItem, refresh }) {
+export default function DeleteAlmaSystemModelConfirmationModal({ isOpen, onRequestClose, delateItem, refresh }) {
     const del = async () => {
-        await DeleteData(Urls['Customers'], delateItem)
+        await DeleteData(Urls['AlmaSystemModels'], delateItem)
         refresh()
         onRequestClose(false)
     }

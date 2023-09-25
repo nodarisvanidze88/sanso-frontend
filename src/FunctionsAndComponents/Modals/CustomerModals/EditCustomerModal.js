@@ -13,17 +13,17 @@ const customStyles = {
         margin: "auto",
     },
 };
-export default function EditCustomerModalNew({ isOpen, onRequestClose, edit, refresh }) {
+export default function EditCustomerModal({ isOpen, onRequestClose, edit, refresh }) {
     const [editItem, setEditItem] = useState([])
     const [formError, setFormError] = useState(false)
     const [isValidFiled, setValidField] = useState(true)
-    console.log(edit)
+
     useEffect(() => {
         if (edit) {
             setEditItem(edit);
         }
     }, [edit]);
-    console.log(edit)
+
 
     const handleInputChanges = (e) => {
         const { name, value } = e.target;
@@ -54,7 +54,7 @@ export default function EditCustomerModalNew({ isOpen, onRequestClose, edit, ref
     }
     const handelSave = async () => {
         if (handelFormValid()) {
-            await PutData(Urls['Get_All_Customers'], editItem.id, editItem)
+            await PutData(Urls['Customers'], editItem.id, editItem)
             refresh()
             onRequestClose(false)
         }
