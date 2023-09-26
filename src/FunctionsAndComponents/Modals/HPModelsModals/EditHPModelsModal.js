@@ -1,8 +1,9 @@
-import React, { useState } from "react";
 import Modal from "react-modal"
+import { PutData } from '../../Crud/PutData'
 import { Urls } from '../../URLS/urls'
-import {PostData} from '../../Crud/PostData'
+import { useEffect, useState } from "react"
 import './confirmationmodal.css'
+
 Modal.setAppElement('#root')
 
 const customStyles = {
@@ -12,19 +13,22 @@ const customStyles = {
         margin: "auto",
     },
 };
-export default function AddNewAlmaSystemModal({ isOpen, onRequestClose, refresh }) {
-    const [formData, setFormData] = useState({
-        model_name: "",
-    })
-    const [formError, setFormError] = useState({
-        model_name: "",
-    })
+export default function EditHPModelsModal({ isOpen, onRequestClose, edit, refresh }) {
+    const [editItem, setEditItem] = useState([])
+    const [formError, setFormError] = useState(false)
     const [isValidFiled, setValidField] = useState(true)
 
-    const handeChanges = (e) => {
+    useEffect(() => {
+        if (edit) {
+            setEditItem(edit);
+        }
+    }, [edit]);
+
+
+    const handleInputChanges = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setEditItem({
+            ...editItem,
             [name]: value,
         })
     }
@@ -32,43 +36,44 @@ export default function AddNewAlmaSystemModal({ isOpen, onRequestClose, refresh 
         const newErrors = {}
         let isValid = true
 
-        if (!formData.model_name) {
+        if (!editItem.model_name) {
             newErrors.model_name = "აუცილებელია აპარატის მოდელის შეყვანა"
             isValid = false
         }
-
         setFormError(newErrors)
         setValidField(isValid)
         return isValid
     }
-
-    const handelSaveSystemModels = async () => {
+    const handelSave = async () => {
         if (handelFormValid()) {
-            await PostData(Urls['AlmaSystemModels'], formData)
+            await PutData(Urls['HPModels'], editItem.id, editItem)
             refresh()
             onRequestClose(false)
         }
     }
+
     return (
         <Modal
             isOpen={isOpen}
             onRequestClose={onRequestClose}
-            contentLabel="Add New Customer Modal"
+            contentLabel="Edit Customer Modal"
             style={customStyles}
         >
             <div className="add-modal-container">
-                <h2>მოწყობილობის მოდელის დამატება</h2>
+                <h2>თავაკების მოდელების რედაქტირება</h2>
+                <div className="field-containers">
                     <input type="text"
                         name="model_name"
-                        value={formData.model_name}
-                        onChange={handeChanges}
-                        placeholder="მოწყობილობის მოდელის დასახელება" 
-                        required/>
-                    {!isValidFiled && 
-                    (<span className="newCustomerError">{formError.model_name}</span>)}
+                        value={editItem.model_name}
+                        onChange={handleInputChanges}
+                        placeholder="თავაკის მოდელის დასახელება"
+                        required />
+                    {!isValidFiled &&
+                        (<span className="newCustomerError">{formError.model_name}</span>)}
+                </div>
                 <div className="add-customer-modal-butons">
                     <div className="modal-yes-button">
-                        <button onClick={handelSaveSystemModels} className="btn btn-danger">Save</button>
+                        <button onClick={handelSave} className="btn btn-danger">Save</button>
                     </div>
                     <div className="modal-no-button">
                         <button onClick={onRequestClose} className="btn btn-primary">Cancel</button>

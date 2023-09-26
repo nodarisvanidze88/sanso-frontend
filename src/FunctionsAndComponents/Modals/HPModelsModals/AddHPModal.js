@@ -12,19 +12,19 @@ const customStyles = {
         margin: "auto",
     },
 };
-export default function AddNewAlmaSystemModal({ isOpen, onRequestClose, refresh }) {
-    const [formData, setFormData] = useState({
-        model_name: "",
+export default function AddHPModelModal({ isOpen, onRequestClose, refresh }) {
+    const [HpformData, setHpformData] = useState({
+        model_name_HP: "",
     })
     const [formError, setFormError] = useState({
-        model_name: "",
+        model_name_HP: "",
     })
     const [isValidFiled, setValidField] = useState(true)
 
     const handeChanges = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setHpformData({
+            ...HpformData,
             [name]: value,
         })
     }
@@ -32,8 +32,8 @@ export default function AddNewAlmaSystemModal({ isOpen, onRequestClose, refresh 
         const newErrors = {}
         let isValid = true
 
-        if (!formData.model_name) {
-            newErrors.model_name = "აუცილებელია აპარატის მოდელის შეყვანა"
+        if (!HpformData.model_name_HP) {
+            newErrors.model_name_HP = "აუცილებელია აპარატის მოდელის შეყვანა"
             isValid = false
         }
 
@@ -42,9 +42,9 @@ export default function AddNewAlmaSystemModal({ isOpen, onRequestClose, refresh 
         return isValid
     }
 
-    const handelSaveSystemModels = async () => {
+    const handelSaveHPModels = async () => {
         if (handelFormValid()) {
-            await PostData(Urls['AlmaSystemModels'], formData)
+            await PostData(Urls['HPModels'], HpformData)
             refresh()
             onRequestClose(false)
         }
@@ -57,18 +57,18 @@ export default function AddNewAlmaSystemModal({ isOpen, onRequestClose, refresh 
             style={customStyles}
         >
             <div className="add-modal-container">
-                <h2>მოწყობილობის მოდელის დამატება</h2>
+                <h2>თავაკის მოდელის დამატება</h2>
                     <input type="text"
-                        name="model_name"
-                        value={formData.model_name}
+                        name="model_name_HP"
+                        value={HpformData.model_name_HP}
                         onChange={handeChanges}
-                        placeholder="მოწყობილობის მოდელის დასახელება" 
+                        placeholder="თავაკის მოდელის დასახელება" 
                         required/>
                     {!isValidFiled && 
-                    (<span className="newCustomerError">{formError.model_name}</span>)}
+                    (<span className="newCustomerError">{formError.model_name_HP}</span>)}
                 <div className="add-customer-modal-butons">
                     <div className="modal-yes-button">
-                        <button onClick={handelSaveSystemModels} className="btn btn-danger">Save</button>
+                        <button onClick={handelSaveHPModels} className="btn btn-danger">Save</button>
                     </div>
                     <div className="modal-no-button">
                         <button onClick={onRequestClose} className="btn btn-primary">Cancel</button>

@@ -8,6 +8,12 @@
     width: 50%;
     justify-content: center;
 }
+.button-edit{
+    margin-right: 10px;
+}
+.button-delete{
+    margin-left: 10px;
+}
 
 .table-container{
     display: flex;
@@ -19,4 +25,12 @@
     margin-left: 10px;
     margin-right: 10px;
 
+}
+.action-row{
+    display: flex;
+    justify-content: center;
+}
+.customer-table-action-header{
+
+    text-align: center;
 }

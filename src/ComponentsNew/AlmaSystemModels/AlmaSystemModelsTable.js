@@ -38,7 +38,7 @@ export default function CreateAlmaSystemModelsTable() {
     const { globalFilter } = state
 
     return (
-        <div className="table-container">
+        <div className="alma-system-models-table-container">
             <AlmaSystemModelsTableHead 
             filter={globalFilter} 
             setFilter={setGlobalFilter} 
@@ -57,7 +57,7 @@ export default function CreateAlmaSystemModelsTable() {
                                     </span>
                                 </th>
                             ))}
-                            <th>მოქმედება</th>
+                            <th className="alma-system-models-action-header">მოქმედება</th>
                         </tr>
                     ))}
                 </thead>
@@ -71,8 +71,8 @@ export default function CreateAlmaSystemModelsTable() {
                                         {cell.render('Cell')}
                                     </td>
                                 ))}
-                                <td>
-                                    <div className="buttons-column">
+                                <td className="alma-system-models-action-row">
+                                    <div className="alma-system-models-buttons-column">
                                         <div className="button-edit">
                                             <button type="button" className="btn btn-primary btn-sm" onClick={() => {
                                                 setItemToEditOrDelete(row.original)

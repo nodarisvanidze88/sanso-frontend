@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { SideBarData } from './NavBarData'
@@ -41,33 +41,46 @@ width:100%;
 `;
 
 const NavBar = () => {
-  const [sidebar, setSidebar] = useState(false)
-  const showSidebar = () => setSidebar(!sidebar)
-  return (
-    <>
-      <Nav>
-        <NavIcon to='#'>
-          <div onClick={showSidebar}>
-            <FontAwesomeIcon icon={faBarsStaggered} size="2xl" />
-          </div>
-        </NavIcon>
-        <SideBarNav sidebar={sidebar}>
-          <SideBarWrap>
-            <NavIcon to='#'>
-              <div onClick={showSidebar}>
-                <FontAwesomeIcon icon={faXmark} size="2xl" />
-              </div>
-            </NavIcon>
-            {SideBarData.map((item, index) => {
-              return (
-                <Submenu item={item} key={index} />
-              )
-            })}
-          </SideBarWrap>
-        </SideBarNav>
-      </Nav>
-    </>
-  )
+    const [sidebar, setSidebar] = useState(false)
+    const sidebarRef = useRef(null);
+    const showSidebar = () => setSidebar(!sidebar)
+    useEffect(() => {
+        const closeSidebarOnClickOutside = (e) => {
+            if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+                setSidebar(false);
+            }
+        };
+        document.addEventListener('mousedown', closeSidebarOnClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', closeSidebarOnClickOutside);
+        };
+    }, []);
+
+    return (
+        <>
+            <Nav>
+                <NavIcon to='#'>
+                    <div onClick={showSidebar}>
+                        <FontAwesomeIcon icon={faBarsStaggered} size="2xl" />
+                    </div>
+                </NavIcon>
+                <SideBarNav sidebar={sidebar} ref={sidebarRef}>
+                    <SideBarWrap>
+                        <NavIcon to='#'>
+                            <div onClick={showSidebar}>
+                                <FontAwesomeIcon icon={faXmark} size="2xl" />
+                            </div>
+                        </NavIcon>
+                        {SideBarData.map((item, index) => {
+                            return (
+                                <Submenu item={item} key={index} />
+                            )
+                        })}
+                    </SideBarWrap>
+                </SideBarNav>
+            </Nav>
+        </>
+    )
 }
 
 export default NavBar

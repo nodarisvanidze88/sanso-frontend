@@ -2,29 +2,29 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useTable, useSortBy, useGlobalFilter } from "react-table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash, faPenToSquare, faArrowUpWideShort, faArrowDownWideShort } from "@fortawesome/free-solid-svg-icons"
-import { CustomerListColumns } from '../../FunctionsAndComponents/TableComponents/customerListColumns'
+import { HPModelsColumns } from '../../FunctionsAndComponents/TableComponents/HPModelsColumns'
 import { Urls } from '../../FunctionsAndComponents/URLS/urls'
 import { GetData } from '../../FunctionsAndComponents/Crud/GetData'
-import  DeleteConfirmationModal  from '../../FunctionsAndComponents/Modals/CustomerModals/DeleteConfirmationModal'
-import EditCustomerModal from '../../FunctionsAndComponents/Modals/CustomerModals/EditCustomerModal'
-import {CustomerTableHead} from "./CustomersListTableHead";
-import './customerTable.css'
+import DeleteHPModelConfirmationModal from "../../FunctionsAndComponents/Modals/HPModelsModals/DeleteConfirmationModal";
+import EditHPModelsModal from "../../FunctionsAndComponents/Modals/HPModelsModals/EditHPModelsModal";
+import {HPModelsTableHead} from "./HPModelsTableHead";
+import './HPModelsTable.css'
 
-export default function CreateCustomersTable() {
-    const [customerList, setCustomerList] = useState([])
+export default function CreateHPModelsTable() {
+    const [hpModels, setHpModels] = useState([])
     const [isModalEditOpen, setIsModalEditOpen] = useState(false)
     const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
     const [itemToEditOrDelete, setItemToEditOrDelete] = useState([])
 
     
         const fullList = () => {
-            GetData(Urls['Customers'], setCustomerList)
+            GetData(Urls['HPModels'], setHpModels)
         }
         useEffect(()=>{
             fullList()
         },[])
-    const columns = useMemo(() => CustomerListColumns, [])
-    const data = useMemo(() => customerList, [customerList])
+    const columns = useMemo(() => HPModelsColumns, [])
+    const data = useMemo(() => hpModels, [hpModels])
 
     const {
         getTableProps,
@@ -38,8 +38,8 @@ export default function CreateCustomersTable() {
     const { globalFilter } = state
 
     return (
-        <div className="table-container">
-            <CustomerTableHead 
+        <div className="hp-models-table-container">
+            <HPModelsTableHead
             filter={globalFilter} 
             setFilter={setGlobalFilter} 
             refresh={fullList}/>
@@ -57,7 +57,7 @@ export default function CreateCustomersTable() {
                                     </span>
                                 </th>
                             ))}
-                            <th className="customer-table-action-header">მოქმედება</th>
+                            <th className="alma-system-models-action-header">მოქმედება</th>
                         </tr>
                     ))}
                 </thead>
@@ -71,8 +71,8 @@ export default function CreateCustomersTable() {
                                         {cell.render('Cell')}
                                     </td>
                                 ))}
-                                <td className="action-row">
-                                    <div className="buttons-column">
+                                <td className="alma-system-models-action-row">
+                                    <div className="alma-system-models-buttons-column">
                                         <div className="button-edit">
                                             <button type="button" className="btn btn-primary btn-sm" onClick={() => {
                                                 setItemToEditOrDelete(row.original)
@@ -96,12 +96,12 @@ export default function CreateCustomersTable() {
                     })}
                 </tbody>
             </table>
-            <EditCustomerModal
+            <EditHPModelsModal
                 isOpen={isModalEditOpen}
                 edit={itemToEditOrDelete}
                 refresh={fullList}
                 onRequestClose={() => setIsModalEditOpen(false)} />
-            <DeleteConfirmationModal
+            <DeleteHPModelConfirmationModal
                 isOpen={isModalDeleteOpen}
                 delateItem={itemToEditOrDelete}
                 refresh={fullList} 

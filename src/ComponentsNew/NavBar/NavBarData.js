@@ -1,25 +1,43 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faBuilding } from "@fortawesome/free-solid-svg-icons"
+import { faBuilding, faSortUp, faGlassWater } from "@fortawesome/free-solid-svg-icons"
 export const SideBarData = [
     {
         title: "კომპანიები",
-        path: "/customers",
-        icon: <FontAwesomeIcon icon={faBuilding} color="#0058f0"/>,
+        path: "#",
+        icon: <FontAwesomeIcon icon={faBuilding} color="#0058f0" />,
+        iconClosed: <FontAwesomeIcon icon={faSortUp} rotation={180} />,
+        iconOpened: <FontAwesomeIcon icon={faSortUp} />,
+        subNav: [
+            {
+                title: "კომპანიების სია",
+                path: "/customers",
+            }
+        ]
     },
     {
-        title: "აპარატები",
-        path: "/almasystemsmodels",
-        icon: 'IZZZ',
-        iconClosed: 'C',
-        iconOpened: 'O',
-        
+        title: "მოწყობილობები",
+        path: "#",
+        icon: <FontAwesomeIcon icon={faGlassWater} />,
+        iconClosed: <FontAwesomeIcon icon={faSortUp} rotation={180} />,
+        iconOpened: <FontAwesomeIcon icon={faSortUp} />,
+        subNav: [
+            {
+                title: "აპარატები",
+                path: "/almasystemsmodels",
+            },
+            {
+                title: "თავაკები",
+                path: "/hpmodels",
+            },
+        ]
+
     },
     {
         title: "სხვა რაღაცეები",
         path: "/test",
-        icon: 'IZZZ',
-        iconClosed: 'C',
-        iconOpened: 'O',
+        icon: '',
+        iconClosed: <FontAwesomeIcon icon={faSortUp} rotation={180} />,
+        iconOpened: <FontAwesomeIcon icon={faSortUp} />,
     }
 
 ]
