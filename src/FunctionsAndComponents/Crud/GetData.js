@@ -1,4 +1,4 @@
-export const GetData = async (url, setData) => {
+export const GetData = async (url, setData=null) => {
     try {
         const response = await fetch(url)
         if (!response.ok) {

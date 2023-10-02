@@ -34,10 +34,16 @@ export const SideBarData = [
     },
     {
         title: "სხვა რაღაცეები",
-        path: "/test",
+        path: "",
         icon: '',
         iconClosed: <FontAwesomeIcon icon={faSortUp} rotation={180} />,
         iconOpened: <FontAwesomeIcon icon={faSortUp} />,
+        subNav: [
+            {
+                title: "ტექნიკოსები",
+                path: "/techpersons",
+            },
+        ]
     }
 
 ]
